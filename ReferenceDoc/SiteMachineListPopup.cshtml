@@ -1,0 +1,90 @@
+﻿@*Site and Machine List Popup Start*@
+<div class="ngdialog-message panel panel-primary">
+    <span class="pull-right">
+        <a href="#" class="popup_close margin-top-10" ng-click="close()" id="idanchorclose"></a>
+    </span>
+    <div class="panel-heading">
+        Site & Machine List
+    </div>
+    <div class="error-messages" ng-cloak ng-show="ErrorMsg.length > 0">
+        <a href="#"  class="popup_icon_close" ng-click="HideValidationDiv()" id="anchorclose"></a>
+        <ul class="no-margin padding-left-15">
+            <li>{{ErrorMsg}}</li>
+        </ul>
+    </div>
+    <div class="success-messages" ng-cloak ng-show="AssignSuccess==true">
+        <a href="#" class="popup_icon_close" ng-click="HideValidationDiv()" id="anchorclose"></a>
+        <ul class="no-margin padding-left-15">
+            <li>{{SuccessMessage}}</li>
+        </ul>
+    </div>
+    <div class="panel-body">
+        <div id="GridSiteMachineList" class="col-sm-12 paddingleftright0 margin_b10 margin-top-10 w-full" style="display:none;">
+            <div class="well-sm form-horizontal well-sm-mob">
+                <div class="w-full" style="margin-bottom:10px;">
+                    <div class="tablefixer w-full admin">
+                        <div id="IdSiteMachineTable" class="w-full overflow-y-auto scrollbox Grid-withoutfooter">
+                            <table class="table toggle-square-filled no-margin table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" data-toggle="true" >
+                                            <div>
+                                            </div>
+                                        </th>
+                                        <th scope="col" data-toggle="true">
+                                            <div>
+
+                                            </div>
+                                        </th>
+                                        <th scope="col" class="text-center padding-left-15" data-hide="phone,tablet">
+                                            <div>
+                                                Site Name
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat-start="site in SiteList">
+                                        <td width="20px">
+                                            <a href="javascript:void(0)" ng-if="site.expanded" ng-click="site.expanded = false"><img src="~/Images/minus.png" class="imgCollepseExpand" /></a>
+                                            <a href="javascript:void(0)" ng-if="!site.expanded" ng-click="site.expanded = true"><img src="~/Images/add.png" class="imgCollepseExpand" /></a>
+                                        </td>
+                                        <td><input type="checkbox" ng-model="site.CompSiteNameCheck" ng-click="ChangeAllChildCheckBox(site,site.CompSiteNameCheck)" name="chkAssignSite" /></td>
+                                        <td>{{site.CompSiteName}}</td>
+                                    </tr>
+                                    <tr ng-if="site.expanded" ng-repeat-end="">
+                                        <td></td>
+                                        <td colspan="2">
+                                            <table width="100%" class="innertable">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="padding-left-15"></th>
+                                                        <th class="padding-left-15">Machine Name</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="machine in site.ListMachineMasterBO">
+                                                        <td class="padding-left-15"><input type="checkbox" name="chkAssignMachine" ng-click="ChangeParentCheckbox(site.ListMachineMasterBO,site)" ng-model="machine.IsAssigned" /></td>
+                                                        <td class="padding-left-15">{{machine.MachineName}}</td>
+                                                    </tr>
+                                                    <tr ng-if="site.ListMachineMasterBO.length == 0">
+                                                        <td></td>
+                                                        <td class="padding-left-15">No Machine found.</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <button id="btnsave" ng-click="SaveAssign()" class="btn btn-primary btn-sm blue-bg">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*Site and Machine List Popup End*@

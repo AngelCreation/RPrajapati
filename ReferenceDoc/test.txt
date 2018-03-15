@@ -1,0 +1,51 @@
+DataService.SetServiceData(furnance);
+
+ var furnanceDetails = DataService.GetServiceData();
+        DataService.ResetServiceData();
+
+
+
+===================================
+//Load Chambers List
+        var LoadFurnanceList = function () {
+            $http({
+                method: "GET",
+                url: "/api/Admin/GetFurnanceList"
+            })
+            .then(function (successData) {
+                if (successData.status == 202) {
+                    $scope.ErrorMsg = successData.data;
+                    return;
+                }
+                var result = JSON.parse(successData.data);
+                $scope.FurnanceList = result;
+            },
+            function (erroData) {
+            });
+        }
+
+===============================
+
+  #region Auto Backup Settings
+
+        [Route("api/Admin/LoadAutoBackupDetails")]
+        [HttpGet]
+        public HttpResponseMessage LoadAutoBackupDetails()
+        {
+            Response = objServiceConnector.CallService(ServiceList.AdminService, ServiceList.AdminService.ToString(), "GetAutoBackupDetails", string.Empty, out ErrorMsg);
+            if (string.IsNullOrEmpty(ErrorMsg))
+                return Request.CreateResponse(HttpStatusCode.OK, Response);
+            return Request.CreateResponse(HttpStatusCode.Accepted, ErrorMsg);
+        }
+
+        [Route("api/Admin/SaveAutoBackupDetails")]
+        [HttpPost]
+        public HttpResponseMessage SaveAutoBackupDetails(string requestparam)
+        {
+            Response = objServiceConnector.CallService(ServiceList.AdminService, ServiceList.AdminService.ToString(), "AutoBackupOperations", requestparam, out ErrorMsg);
+            if (string.IsNullOrEmpty(ErrorMsg))
+                return Request.CreateResponse(HttpStatusCode.OK, Response);
+            return Request.CreateResponse(HttpStatusCode.Accepted, ErrorMsg);
+        }
+
+        #endregion
